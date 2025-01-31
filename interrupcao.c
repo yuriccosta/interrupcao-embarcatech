@@ -107,21 +107,21 @@ void display_num(int number){
 }
 
 void gpio_irq_handler(uint gpio, uint32_t events) {
-     // Obtém o tempo atual em microssegundos
+     // Obtém o tempo atual em milissegundos
     uint32_t current_time = to_ms_since_boot(get_absolute_time());
     printf("num = %u\n", num);
     // Verificação de tempo para debounce
     if (current_time - last_time > 200){
         if(gpio == BUTTON_PIN_A){
             printf("Botão A pressionado\n");
-            num++;
+            num = (num + 1) % 10; // Faz o tratamento para o caso de num = 9
         } else if(gpio == BUTTON_PIN_B){
             printf("Botão B pressionado\n");
-            num--;
+            num = (num + 9) % 10; // Faz o tratamento para o caso de num = 0
         }
         printf("num = %u\n", num);
 
-        display_num(num % 10);
+        display_num(num);
 
         last_time = current_time; // Atualiza o tempo do último evento
     }
@@ -172,6 +172,6 @@ int main()
     while (true) {
         // Pisca o led 5 vezes por segundo
         gpio_put(LED_PIN_RED, !gpio_get(LED_PIN_RED));
-        sleep_ms(200);
+        sleep_ms(100); // 100 ms ligado + 100 ms desligado = 5 piscadas/segundo
     }
 }
