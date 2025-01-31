@@ -82,8 +82,8 @@ double padrao[10][LED_COUNT] = {
         }  // 9
     };
 
-// Ordem da matriz de LEDS
-int ordem[] = {0, 1, 2, 3, 4, 9, 8, 7, 6, 5, 10, 11, 12, 13, 14, 19, 18, 17, 16, 15, 20, 21, 22, 23, 24};  
+// Ordem da matriz de LEDS, útil para poder visualizar na matriz do código e escrever na ordem correta do hardware
+int ordem[LED_COUNT] = {0, 1, 2, 3, 4, 9, 8, 7, 6, 5, 10, 11, 12, 13, 14, 19, 18, 17, 16, 15, 20, 21, 22, 23, 24};  
 
 
 //rotina para definição da intensidade de cores do led
@@ -101,7 +101,9 @@ void display_num(int number){
     uint32_t valor_led;
 
     for (int i = 0; i < LED_COUNT; i++){
+        // Define a cor do LED de acordo com o padrão
         valor_led = matrix_rgb(0, padrao[number][ordem[24 - i]], 0);
+        // Atualiza o LED
         pio_sm_put_blocking(pio, sm, valor_led);
     }
 }
@@ -121,6 +123,7 @@ void gpio_irq_handler(uint gpio, uint32_t events) {
         }
         printf("num = %u\n", num);
 
+        // Atualiza o número na matriz de LEDS
         display_num(num);
 
         last_time = current_time; // Atualiza o tempo do último evento
@@ -128,7 +131,8 @@ void gpio_irq_handler(uint gpio, uint32_t events) {
 }
 
 int main()
-{
+{   
+    // Configuração do PIO
     pio = pio0; 
     bool ok;
     
@@ -140,7 +144,6 @@ int main()
     printf("iniciando a transmissão PIO");
     if (ok) printf("clock set to %ld\n", clock_get_hz(clk_sys));
 
-    //configurações da PIO
     uint offset = pio_add_program(pio, &animacao_matriz_program);
     sm = pio_claim_unused_sm(pio, true);
     animacao_matriz_program_init(pio, sm, offset, MATRIZ_PIN);
