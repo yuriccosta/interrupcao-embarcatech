@@ -62,9 +62,9 @@ double padrao[10][LED_COUNT] = {
          0, 1, 0, 1, 0,
          0, 1, 1, 1, 0,
         },  // 6
-        {0, 1, 1, 1, 0,
+        {0, 1, 1, 1, 1,
+         0, 0, 0, 0, 1,
          0, 0, 0, 1, 0,
-         0, 0, 1, 0, 0,
          0, 0, 1, 0, 0,
          0, 0, 1, 0, 0,
         }, // 7
@@ -87,14 +87,12 @@ int ordem[LED_COUNT] = {0, 1, 2, 3, 4, 9, 8, 7, 6, 5, 10, 11, 12, 13, 14, 19, 18
 
 
 //rotina para definição da intensidade de cores do led
-uint32_t matrix_rgb(double b, double r, double g)
+uint32_t matrix_rgb(double r)
 {
-  // Para não ficar forte demais, a intensidade de cada cor é multiplicada por 50
+  // Para não ficar forte demais, a intensidade de cor é multiplicada por 50
   unsigned char R, G, B;
   R = r * 50; 
-  G = g * 50;
-  B = b * 50;
-  return (G << 24) | (R << 16) | (B << 8);
+  return (R << 16);
 }
 
 void display_num(int number){
@@ -102,7 +100,7 @@ void display_num(int number){
 
     for (int i = 0; i < LED_COUNT; i++){
         // Define a cor do LED de acordo com o padrão
-        valor_led = matrix_rgb(0, padrao[number][ordem[24 - i]], 0);
+        valor_led = matrix_rgb(padrao[number][ordem[24 - i]]);
         // Atualiza o LED
         pio_sm_put_blocking(pio, sm, valor_led);
     }
