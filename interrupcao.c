@@ -19,7 +19,7 @@ uint sm;
 static volatile uint num = 0; // Variável para contar o número de interrupções
 static volatile uint32_t last_time = 0; // Variável para armazenar o tempo do último evento
 
-double padrao[10][LED_COUNT] = {
+double padrao_led[10][LED_COUNT] = {
         {0, 1, 1, 1, 0,
          0, 1, 0, 1, 0,
          0, 1, 0, 1, 0,
@@ -100,7 +100,7 @@ void display_num(int number){
 
     for (int i = 0; i < LED_COUNT; i++){
         // Define a cor do LED de acordo com o padrão
-        valor_led = matrix_rgb(padrao[number][ordem[24 - i]]);
+        valor_led = matrix_rgb(padrao_led[number][ordem[24 - i]]);
         // Atualiza o LED
         pio_sm_put_blocking(pio, sm, valor_led);
     }
