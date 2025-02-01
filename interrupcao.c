@@ -16,8 +16,8 @@
 // Declaração de variáveis globais
 PIO pio;
 uint sm;
-volatile uint num = 0; // Variável para contar o número de interrupções
-volatile uint32_t last_time = 0; // Variável para armazenar o tempo do último evento
+static volatile uint num = 0; // Variável para contar o número de interrupções
+static volatile uint32_t last_time = 0; // Variável para armazenar o tempo do último evento
 
 double padrao[10][LED_COUNT] = {
         {0, 1, 1, 1, 0,
@@ -106,7 +106,7 @@ void display_num(int number){
     }
 }
 
-void gpio_irq_handler(uint gpio, uint32_t events) {
+static void gpio_irq_handler(uint gpio, uint32_t events) {
      // Obtém o tempo atual em milissegundos
     uint32_t current_time = to_ms_since_boot(get_absolute_time());
     printf("num = %u\n", num);
