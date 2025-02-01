@@ -16,7 +16,7 @@
 // Declaração de variáveis globais
 PIO pio;
 uint sm;
-static volatile uint num = 0; // Variável para contar o número de interrupções
+static volatile uint num = 0; // Variável para contar o número atual
 static volatile uint32_t last_time = 0; // Variável para armazenar o tempo do último evento
 
 double padrao_led[10][LED_COUNT] = {
