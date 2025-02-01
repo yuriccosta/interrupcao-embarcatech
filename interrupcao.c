@@ -90,7 +90,7 @@ int ordem[LED_COUNT] = {0, 1, 2, 3, 4, 9, 8, 7, 6, 5, 10, 11, 12, 13, 14, 19, 18
 uint32_t matrix_rgb(double r)
 {
   // Para não ficar forte demais, a intensidade de cor é multiplicada por 50
-  unsigned char R, G, B;
+  unsigned char R;
   R = r * 50; 
   return (R << 16);
 }
