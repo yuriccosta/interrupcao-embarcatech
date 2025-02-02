@@ -1,39 +1,42 @@
-# Interrupcao Embarcatech
-Enunciado
-Para consolidar a compreensão dos conceitos relacionados ao uso de interrupções no
-microcontrolador RP2040 e explorar as funcionalidades da placa de desenvolvimento BitDogLab, propõe-se
-a seguinte tarefa prática.  
+# Projeto de Controle de LEDs com Interrupções - BitDogLab
 
-Objetivos
-* Compreender o funcionamento e a aplicação de interrupções em microcontroladores.
-* Identificar e corrigir o fenômeno do bouncing em botões por meio de debouncing via software.
-* Manipular e controlar LEDs comuns e LEDs endereçáveis WS2812.
-* Fixar o estudo do uso de resistores de pull-up internos em botões de acionamento.
-* Desenvolver um projeto funcional que combine hardware e software.  
+## Visão Geral
+Este projeto utiliza a placa BitDogLab com o microcontrolador RP2040 para controlar uma matriz de LEDs WS2812 e um LED RGB, implementando interrupções para tratar eventos de botões. O sistema permite incrementar/decrementar um número exibido na matriz e inclui debouncing via software.
 
-Descrição do Projeto:
-Neste projeto, você deverá utilizar os seguintes componentes conectados à placa BitDogLab:
-* Matriz 5x5 de LEDs (endereçáveis) WS2812, conectada à GPIO 7.
-* LED RGB, com os pinos conectados às GPIOs (11, 12 e 13).
-* Botão A conectado à GPIO 5.
-* Botão B conectado à GPIO 6.  
+## Funcionalidades
+- **LED RGB**: Pisca o LED vermelho a 5Hz.
+- **Botões A e B**: 
+  - **Botão A**: Incrementa o número exibido (0-9).
+  - **Botão B**: Decrementa o número exibido (0-9).
+- **Matriz de LEDs WS2812**: Exibe números de 0 a 9 em formato digital com LEDs vermelhos.
+- **Debouncing**: Tratamento de bouncing dos botões via software (200ms de delay).
+- **Interrupções**: Uso de rotinas de interrupção para detectar pressionamentos.
 
-Funcionalidades do Projeto
-1. O LED vermelho do LED RGB deve piscar continuamente 5 vezes por segundo.
-2. O botão A deve incrementar o número exibido na matriz de LEDs cada vez que for pressionado.
-3. O botão B deve decrementar o número exibido na matriz de LEDs cada vez que for pressionado.
-4. Os LEDs WS2812 devem ser usados para criar efeitos visuais representando números de 0 a 9.
-* Formatação fixa: Cada número deve ser exibido na matriz em um formato fixo, como
-caracteres em estilo digital (ex.: segmentos iluminados que formem o número).
-* Alternativamente, é permitido utilizar um estilo criativo, desde que o número seja claramente
-identificável.
+## Requisitos
+### Hardware
+- Placa BitDogLab com RP2040.
+- Matriz de LEDs WS2812 (5x5) conectada ao GPIO 7.
+- LED RGB (vermelho no GPIO 13).
+- Botões A (GPIO 5) e B (GPIO 6).
 
-Requisitos do Projeto
-Para o desenvolvimento, devem ser seguidos os seguintes requisitos:
-1. Uso de interrupções: Todas as funcionalidades relacionadas aos botões devem ser implementadas
-utilizando rotinas de interrupção (IRQ).
-2. Debouncing: É obrigatório implementar o tratamento do bouncing dos botões via software.
-3. Controle de LEDs: O projeto deve incluir o uso de LEDs comuns e LEDs WS2812, demonstrando o
-domínio de diferentes tipos de controle.
-4. Organização do código: O código deve estar bem estruturado e comentado para facilitar o
-entendimento.
+## Uso
+### Funcionamento Básico
+- **Inicialização**: A matriz exibe o número **0** e o LED vermelho começa a piscar.  
+- **Botão A**:  
+  - Pressione → Número incrementa (ex: 0 → 1).  
+  - Ao chegar em 9, retorna para 0.  
+- **Botão B**:  
+  - Pressione → Número decrementa (ex: 1 → 0).  
+  - Ao chegar em 0, retorna para 9.  
+
+### Estrutura do Código
+- **Interrupções**:  
+  Tratadas na função `gpio_irq_handler` (verificação de bouncing e atualização do número).  
+- **Padrões dos Números**:  
+  Definidos na matriz `padrao_led`, onde cada posição representa um LED aceso (1) ou apagado (0).  
+- **Controle da Matriz**:  
+  A função `display_num` renderiza o número atual na matriz usando a cor vermelha.  
+
+## Vídeo de Demonstração
+Assista à demonstração do projeto em execução:  
+[Vídeo Demonstrativo](https://youtu.be/iqrLGlgJekE)  
